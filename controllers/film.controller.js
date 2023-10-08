@@ -23,8 +23,20 @@ const createNewFilm = async (request, response) => {
   response.status(201).json({ message: 'Film created successfully' })
 };
 
+const deleteFilmById = async (request, response) => {
+  const id = request.params.id;
+  const film = await Film.findByPk(id);
+
+  if (!film) return response.status(404)
+                            .json({ message: 'Not found' })
+  await film.destroy();
+
+  response.json({ message: 'Film deleted successfully' });
+};
+
 module.exports = {
   createNewFilm,
+  deleteFilmById,
   getAllFilms,
   getFilmById
 }
