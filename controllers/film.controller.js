@@ -2,9 +2,21 @@ const models = require('../models');
 const Film = models.Film;
 
 const getAllFilms = async (request, response) => {
-  const films = await Film.findAll();
+  const { page, size } = request.query;
 
-  response.json({ data: films });
+  const films = await Film.findAll({
+    limit: size,
+    offset: (page - 1) * size
+  });
+
+  const filmCount = await Film.count();
+
+  response.json({ data: films, meta: {
+    page: page,
+    currentPage: page,
+    total: filmCount,
+    count: films.length
+  } });
 };
 
 const getFilmById = async (request, response) => {
