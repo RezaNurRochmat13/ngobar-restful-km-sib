@@ -3,7 +3,7 @@ const filmRouter = express.Router();
 const filmController = require('../controllers/film.controller')
 const authMiddleware = require('../middleware/authentication.middleware');
 
-filmRouter.use(authMiddleware);
+// filmRouter.use(authMiddleware);
 
 filmRouter.get('/api/films', filmController.getAllFilms);
 filmRouter.get('/api/films/:id', filmController.getFilmById);

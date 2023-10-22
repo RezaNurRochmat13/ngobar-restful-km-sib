@@ -1,6 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
+const expressFormidable = require('express-formidable');
 const PORT = process.env.APP_PORT || 8081;
 
 const filmRouter = require('./routes/film.route');
@@ -11,7 +12,7 @@ dotenv.config();
 const app = express();
 
 app.use(morgan('dev'));
-app.use(express.json());
+app.use(expressFormidable());
 app.use(authRouter);
 app.use(filmRouter);
 

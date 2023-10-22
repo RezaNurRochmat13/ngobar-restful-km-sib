@@ -1,5 +1,6 @@
 const models = require('../models');
 const Film = models.Film;
+const cloudinaryConfig = require('../config/cloudinary');
 
 const getAllFilms = async (request, response) => {
   const { page, size } = request.query;
@@ -30,7 +31,15 @@ const getFilmById = async (request, response) => {
 };
 
 const createNewFilm = async (request, response) => {
-  const film = await Film.create(request.body)
+  const uploadedFile = await cloudinaryConfig.uploader.upload(request.files.cover.path);
+
+  const film = await Film.create({
+    name: request.fields.name,
+    description: request.fields.description,
+    year: request.fields.year,
+    author: request.fields.author,
+    cover: uploadedFile?.secure_url
+  })
 
   response.status(201).json({ message: 'Film created successfully' })
 };
